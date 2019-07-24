@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 import './App.css';
+import Form from './Components/Form';
+import Card from './Components/Card';
 
 function App() {
 
-  const [name, setName] = useState('name');
-  const [email, setEmail] = useState('email');
-  const [role, setRole] = useState('role');
+  let [teamMember, setTeamMember] = useState({});
+  const [teamList, setTeamList] = useState([]);
+
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [role, setRole] = useState('');
 
   const nameChangeHandler = event => {
     setName(event.target.value);
@@ -21,30 +26,37 @@ function App() {
 
   const submitHandler = event => {
     event.preventDefault();
-    console.log(name);
-    console.log(email);
-    console.log(role);
+        setTeamMember({name, email, role});
+        setTeamList([...teamList, teamMember]);
+        setName('');
+        setEmail('');
+        setRole('');
+        console.log(teamList);
   }
 
-  return (
-    <div className="App">
-      <form onSubmit={event => submitHandler(event)}>
-        <label>
-          Name:
-          <input type="text" onChange={event => nameChangeHandler(event)} />
-        </label>
-        <label>
-          Email:
-          <input type="text" onChange={event => emailChangeHandler(event)} />
-        </label>
-        <label>
-          Role:
-          <input type="text" onChange={event => roleChangeHandler(event)} />
-        </label>
-        <button>Submit</button>
-      </form>
+  return(
+    <div>
+      <Form
+        name={name}
+        email={email}
+        role={role}
+        teamMember={teamMember}
+        teamList={teamList}
+        nameChangeHandler={nameChangeHandler}
+        emailChangeHandler={emailChangeHandler}
+        roleChangeHandler={roleChangeHandler}
+        submitHandler={submitHandler}
+      />
+      <div>
+        <Card
+          name={name}
+          email={email}
+          role={role}
+          teamList={teamList}
+        />
+      </div>
     </div>
-  );
+  )
 }
 
 export default App;
